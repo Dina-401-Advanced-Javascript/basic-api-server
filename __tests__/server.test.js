@@ -4,23 +4,53 @@ const { server } = require('../src/server');
 const supertest = require('supertest');
 const mockRequest = supertest(server);
 
-describe ('web server', () => {
-    it('Should respond with 404 status on an invalid route', () => {
-        return mockRequest
-          .get('/blah')
-          .then(result => {
-            expect(result.status).toBe(404);
-          })
-          //.catch(err => console.error(err));
-      })
-    
-      it('Should respond with 500 status on a server error thrown', () => {
-        return mockRequest
-          .put('/artists')
-          .then(result => {
-            expect(result.status).toBe(500);
-          })
-          //.catch(err => console.error(err));
-      })
-      
+describe('web server', () => {
+  it('Should respond with 404 status on an invalid route', async () => {
+    const result = await mockRequest.get('/blah');
+    expect(result.status).toBe(404);
+  });
+
+  it('Should respond with 404 status on bad method', async () => {
+    const result = await mockRequest.post('/artists/2')
+    expect(result.status).toBe(404);
+  })
+
+  // it('Should respond with 500 status on a server error thrown, such as going to update or delete with no id', async () => {
+  //   const result = await mockRequest.put('/artists/');
+  //   expect(result.status).toBe(500);
+  // });
+
+  it('Should respond with 200 status on GET /artists', async () => {
+    const result = await mockRequest.get('/artists');
+    expect(result.status).toBe(200);
+  });
+
+  it('Should add item on POST /artists', async () => {
+    // const artistObject = {
+    //   name: "Van what",
+    //   fromLocation: "NL",
+    //   yearBorn: 1153,
+    //   yearDied: 1390,
+    //   id: 2
+    // };
+    const result = await mockRequest.post('/artists');
+    expect(result.body.id).toEqual(1);
+  })
+
+  it('Should respond with 200 status on GET /artists/1', async () => {
+    const result = await mockRequest.get('/artists/1');
+    expect(result.body.id).toEqual(1);
+  });
+
+  /*
+  it('Should respond with 200 status on PUT /artists/1', async() => {
+    const result = await mockRequest.put('/artists/1');
+    expect(result.body.id).toEqual(1);
+  });
+  
+  it('Should respond with 200 status on DELETE /artists/1', async() => {
+    const result = await mockRequest.put('/artists/1');
+    expect(result.body).toBe([]);
+  });
+  */
 })
