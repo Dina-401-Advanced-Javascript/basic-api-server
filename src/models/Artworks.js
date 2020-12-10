@@ -1,8 +1,63 @@
 'use strict';
+
+/////////////////////////////////////////
+// ORIGINAL CODE THAT WASN'T WORKING DUE TO "parseInt" missing!! 
+/////////////////////////////////////////
+class Artworks {
+    constructor() {
+        this.id = 0;
+        this.db = [];
+    }
+
+    get(id) {
+        if (!id) {
+            return this.db;
+        } else {
+            console.log(id);
+            return this.db.find(artwork => artwork.id === parseInt(id));
+        }
+    }
+
+    create(artwork) {
+        artwork.id = ++this.id;
+        this.db.push(artwork);
+        return artwork;
+    }
+
+    update(id, artwork) {
+        if (!id) {
+            return null;
+        } else {
+            let indexOfThisArtwork = this.db.findIndex(artwork => artwork.id === parseInt(id));
+            if (indexOfThisArtwork) {
+                this.db[indexOfThisArtwork] = artwork;
+                return this.db[indexOfThisArtwork];
+            }
+            else {
+                //we couldn't find the artwork you're referring to in our db.
+                return null;
+            }
+        }
+    }
+
+    delete(id) {
+        if (!id) {
+            this.db = [];
+            return this.db;
+        } else {
+            //TODO: do this a smarter way, in place, with splice. 
+            //we are making an assumption here that the provided artwork id is in the list. If it isn't, nothing fails and that's okay, maybe someone else deleted it first.
+            this.db = this.db.filter((artwork) => artwork.id !== parseInt(id));
+            return this.db;
+        }
+    }
+}
+
 //////////////////////////////////////////////////////
-//  NONE OF THE ARRAY METHODS LIKE FIND OR FIND INDEX WORK!!!
-//   so i had to implement my own search :(
+//  NONE OF THE ARRAY METHODS LIKE FIND OR FIND INDEX WERE WORKNG!!!
+//   so i implemented my own binary search! 
 //////////////////////////////////////////////////////
+/*
 const binarySearch = require('../algorithms/binary-search');
 
 class Artworks {
@@ -61,60 +116,6 @@ class Artworks {
     }
 
 
-}
+}*/
 
-/* ////////////////////////////////////////
-// OLD CODE THAT REFUSES TO WORK! ==> .FIND, .FINDINDEX, .FILTER ALL RETURN NOTHING
-/////////////////////////////////////////
-class Artworks {
-    constructor() {
-        this.id = 0;
-        this.db = [];
-    }
-
-    get(id) {
-        if (!id) {
-            return this.db;
-        } else {
-            console.log(id);
-            return this.db.find(artwork => artwork.id === id);
-        }
-    }
-
-    create(artwork) {
-        artwork.id = ++this.id;
-        this.db.push(artwork);
-        return artwork;
-    }
-
-    update(id, artwork) {
-        if (!id) {
-            return null;
-        } else {
-            let indexOfThisArtwork = this.db.findIndex(artwork => artwork.id === id);
-            if (indexOfThisArtwork) {
-                this.db[indexOfThisArtwork] = artwork;
-                return this.db[indexOfThisArtwork];
-            }
-            else {
-                //we couldn't find the artist you're referring to in our db.
-                return null;
-            }
-        }
-    }
-
-
-    delete(id) {
-        if (!id) {
-            this.db = [];
-            return this.db;
-        } else {
-            //TODO: do this a smarter way, in place, with splice. 
-            //we are making an assumption here that the provided artist id is in the list. If it isn't, nothing fails and that's okay, maybe someone else deleted it first.
-            this.db = this.db.filter((artwork) => artwork.id !== id);
-            return this.db;
-        }
-    }
-}
-*/
 module.exports = Artworks;
