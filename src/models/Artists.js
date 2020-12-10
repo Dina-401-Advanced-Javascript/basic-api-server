@@ -1,8 +1,64 @@
 'use strict'
+
+/////////////////////////////////////////
+// ORIGINAL CODE THAT WASN'T WORKING DUE TO "parseInt" missing!! 
+/////////////////////////////////////////
+class Artists {
+    constructor() {
+        this.id = 0;
+        this.db = [];
+    }
+
+    get(id) {
+        if (!id) {
+            return this.db;
+        } else {
+            console.log(id);
+            return this.db.find(artist => artist.id === parseInt(id));
+        }
+    }
+
+    create(artist) {
+        artist.id = ++this.id;
+        this.db.push(artist);
+        return artist;
+    }
+
+    update(id, artist) {
+        if (!id) {
+            return null;
+        } else {
+            let indexOfThisArtist = this.db.findIndex(artist => artist.id === parseInt(id));
+            if (indexOfThisArtist) {
+                this.db[indexOfThisArtist] = artist;
+                return this.db[indexOfThisArtist];
+            }
+            else {
+                //we couldn't find the artist you're referring to in our db.
+                return null;
+            }
+        }
+    }
+
+
+    delete(id) {
+        if (!id) {
+            this.db = [];
+            return this.db;
+        } else {
+            //TODO: do this a smarter way, in place, with splice. 
+            //we are making an assumption here that the provided artist id is in the list. If it isn't, nothing fails and that's okay, maybe someone else deleted it first.
+            this.db = this.db.filter((artist) => artist.id !== parseInt(id));
+            return this.db;
+        }
+    }
+}
+
 //////////////////////////////////////////////////////
-//  NONE OF THE ARRAY METHODS LIKE FIND, filter OR FIND INDEX WORK!!!
-//   so i had to implement my own search :(
+//  NONE OF THE ARRAY METHODS LIKE FIND OR FIND INDEX WERE WORKNG!!!
+//   so i implemented my own binary search! 
 //////////////////////////////////////////////////////
+/*
 const binarySearch = require('../algorithms/binary-search');
 
 class Artists {
@@ -71,5 +127,5 @@ class Artists {
 
     
 }
-
+*/
 module.exports = Artists;

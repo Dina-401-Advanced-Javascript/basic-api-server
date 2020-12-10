@@ -5,6 +5,7 @@ const app = express();
 const notFoundError = require('./error-handlers/404');
 const internalServerError = require('./error-handlers/500');
 const logger = require('./middleware/logger');
+const validator = require('./middleware/validator');
 const artistRoutes = require('./routes/artist-routes');
 const artworkRoutes = require('./routes/artwork-routes');
 
