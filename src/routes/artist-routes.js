@@ -1,38 +1,35 @@
 'use strict';
 const express = require('express');
 const router = express.Router();
-const Artists = require('../models/Artists');
-const artists = new Artists();
+const artistModel = require('../models/Artists');
+const ArtistsCollection = require('../models/data-collection-class');
+const artists = new ArtistsCollection(artistModel);
+const validator = require('../middleware/validator');
 
 router.get('/artists', getArtists);
 router.get('/artists/:id', getArtist);
-router.put('/artists/:id',updateArtist);
-router.post('/artists',createArtist);
-router.delete('/artists/:id',deleteArtist);
-router.delete('/artists',deleteAllArtists);
+router.put('/artists/:id', validator, updateArtist);
+router.post('/artists', createArtist);
+router.delete('/artists/:id', validator, deleteArtist);
 
-function getArtists(req,res){
-    res.status(200).json(artists.get());
+async function getArtists(req, res) {
+  res.status(200).json(await artists.get());
 }
 
-function getArtist(req,res) {
-    res.status(200).json(artists.get(req.params.id));
+async function getArtist(req, res) {
+  res.status(200).json(await artists.get(req.params.id));
 }
 
-function createArtist(req,res) {
-    res.status(200).json(artists.create(req.body));
+async function createArtist(req, res) {
+  res.status(200).json(await artists.create(req.body));
 }
 
-function updateArtist(req,res){
-    res.status(200).json(artists.update(req.params.id,req.body));
+async function updateArtist(req, res) {
+  res.status(200).json(await artists.update(req.params.id, req.body));
 }
 
-function deleteArtist(req,res){
-    res.status(200).json(artists.delete(req.params.id));
-}
-
-function deleteAllArtists(req,res){
-    res.status(200).json(artists.delete());
+async function deleteArtist(req, res) {
+  res.status(200).json(await artists.delete(req.params.id));
 }
 
 module.exports = router;

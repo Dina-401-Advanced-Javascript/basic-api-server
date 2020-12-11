@@ -1,5 +1,19 @@
 'use strict';
 
+const mongoose = require('mongoose');
+
+// 1. make a schema
+const artworkSchema = mongoose.Schema({
+  name: { type: String, required: true },
+  currentLocation: { type: String, required: true },
+  year: {type: Number, required: true}});
+
+// 2. export this schema as a model
+const artworkModel = mongoose.model('artwork', artworkSchema);
+
+module.exports = artworkModel;
+
+/*
 /////////////////////////////////////////
 // ORIGINAL CODE THAT WASN'T WORKING DUE TO "parseInt" missing!! 
 /////////////////////////////////////////
@@ -52,7 +66,7 @@ class Artworks {
         }
     }
 }
-
+*/
 //////////////////////////////////////////////////////
 //  NONE OF THE ARRAY METHODS LIKE FIND OR FIND INDEX WERE WORKNG!!!
 //   so i implemented my own binary search! 
@@ -116,6 +130,7 @@ class Artworks {
     }
 
 
-}*/
+}
 
 module.exports = Artworks;
+*/
