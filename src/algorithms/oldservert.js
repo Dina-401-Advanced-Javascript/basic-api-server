@@ -11,12 +11,12 @@ describe('web server', () => {
     const result = await mockRequest.get('/blah');
     expect(result.status).toBe(404);
   });
-*/
+
   it('Should respond with 404 status on bad method', async () => {
     const result = await mockRequest.post('/artists/2');
     expect(result.status).toBe(404);
   });
-
+*/
   // it('Should respond with 500 status on a server error thrown, such as going to update or delete with no id', async () => {
   //   const result = await mockRequest.put('/artists/');
   //   expect(result.status).toBe(500);
