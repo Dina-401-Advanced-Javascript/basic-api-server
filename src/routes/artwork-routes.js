@@ -1,38 +1,39 @@
 'use strict';
 const express = require('express');
 const router = express.Router();
-const Artworks = require('../models/Artworks');
-const artists = new Artworks();
+const artworksModel = require('../models/Artworks');
+const ArtworksCollection = require('../models/data-collection-class');
+const artists = new ArtworksCollection(artworksModel);
 
 router.get('/artworks', getArtworks);
 router.get('/artworks/:id', getArtwork);
-router.put('/artworks/:id',updateArtwork);
-router.post('/artworks',createArtwork);
-router.delete('/artworks/:id',deleteArtwork);
-router.delete('/artworks',deleteAllArtworks);
+router.put('/artworks/:id', updateArtwork);
+router.post('/artworks', createArtwork);
+router.delete('/artworks/:id', deleteArtwork);
+router.delete('/artworks', deleteAllArtworks);
 
-function getArtworks(req,res){
-    res.status(200).json(artists.get());
+async function getArtworks(req, res) {
+  res.status(200).json(await artists.get());
 }
 
-function getArtwork(req,res) {
-    res.status(200).json(artists.get(req.params.id));
+async function getArtwork(req, res) {
+  res.status(200).json(await artists.get(req.params.id));
 }
 
-function createArtwork(req,res) {
-    res.status(200).json(artists.create(req.body));
+async function createArtwork(req, res) {
+  res.status(200).json(await artists.create(req.body));
 }
 
-function updateArtwork(req,res){
-    res.status(200).json(artists.update(req.params.id,req.body));
+async function updateArtwork(req, res) {
+  res.status(200).json(await artists.update(req.params.id, req.body));
 }
 
-function deleteArtwork(req,res){
-    res.status(200).json(artists.delete(req.params.id));
+async function deleteArtwork(req, res) {
+  res.status(200).json(await artists.delete(req.params.id));
 }
 
-function deleteAllArtworks(req,res){
-    res.status(200).json(artists.delete());
+async function deleteAllArtworks(req, res) {
+  res.status(200).json(await artists.delete());
 }
 
 module.exports = router;
