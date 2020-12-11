@@ -19,7 +19,6 @@ class DataCollection {
   }
 
   update(_id, record) {
-    console.log(_id,record);
     return this.model.findByIdAndUpdate(_id, record, { new: true });
   }
 

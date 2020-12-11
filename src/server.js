@@ -9,7 +9,7 @@ const artistRoutes = require('./routes/artist-routes');
 const artworkRoutes = require('./routes/artwork-routes');
 
 const mongoose = require('mongoose');
-const MONGOOSE_URI = 'mongodb://localhost:27017/art';
+const MONGOOSE_URI = process.env.MONGOOSE_URI;//'mongodb://localhost:27017/art';
 const options = {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false};
 mongoose.connect(MONGOOSE_URI, options);
 
