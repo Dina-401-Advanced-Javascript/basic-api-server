@@ -2,6 +2,7 @@
 
 const express = require('express');
 const app = express();
+require('cors');
 const notFoundError = require('./error-handlers/404');
 const internalServerError = require('./error-handlers/500');
 const logger = require('./middleware/logger');
